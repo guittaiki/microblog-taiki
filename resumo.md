@@ -1,26 +1,30 @@
-# Resumo da branch `04_exercicio-categorias`
+# Resumo da branch `05_alua-1011`
 
-Este resumo registra somente o trabalho acrescentado nesta branch, em continuidade à edição de usuários feita na branch anterior.
+Este resumo registra somente as mudanças acrescentadas nesta branch, após a branch `04_exercicio-categorias`.
 
-## Gerenciamento de categorias
+## Exclusão de usuários
 
-- **Serviço e modelo de categorias** — `7974641` (`Adicione a categoria de serviço e um ID opcional`)
-  - Criou `CategoriaServico` com operações para listar e inserir categorias.
-  - Permitiu criar categorias sem informar o ID, deixando a geração do identificador a cargo do banco.
-- **Listagem administrativa** — `7901a69` (`Listar categorias dinamicamente na área administrativa`)
-  - Substituiu os dados estáticos da página administrativa por categorias carregadas do banco.
-  - Incluiu a contagem de registros, escape da saída HTML e registro/exibição de falhas de carregamento.
-- **Criação e validação** — `a5da636` (`Validar nomes de categorias no momento da criação`) e `19bb369` (`Update categoria-insere.php`)
-  - Validou o nome informado e conectou o formulário à inserção, apresentando erros de forma apropriada.
-- **Consulta e atualização** — `5688e04` (`Adicionar métodos de busca e atualização de categorias`) e `b212383` (`Valida e trata erros ao atualizar categoria`)
-  - Implementou busca por ID e atualização no serviço.
-  - Carregou a categoria para edição, validou os dados recebidos e tratou erros sem deixar de escapar o conteúdo exibido.
-- **Geração de ID e tratamento de erros** — `c274833` (`Gera automaticamente o ID da categoria`) e `f548030` (`Exibe erros ao atualizar usuário`)
-  - Ajustou a criação para gerar o ID automaticamente e melhorou o retorno de erro no fluxo de atualização de usuário.
-- **Exclusão de categorias** — `64a5b2e` (`Adicionar método de exclusão de categoria`) e `9e2be49` (`Implementar a exclusão de categorias a partir da página administrativa...`)
-  - Adicionou a exclusão ao serviço e à área administrativa.
-  - Corrigiu a cláusula SQL `WHERE` usada pelo serviço, além de tratar erros na operação.
+- **Exclusão no serviço e na área administrativa** — `64ef435` (`Implementa exclusão de usuários`)
+  - Adicionou a exclusão de usuários ao serviço e conectou a ação administrativa ao banco.
+  - Normalizou e verificou o ID recebido, registrando falhas e apresentando uma mensagem de erro quando necessário.
+- **Correção de acentuação** — `4b857f9` (`Corrige acentuação na mensagem de exclusão`)
+  - Corrigiu a mensagem de retorno relacionada à exclusão.
+
+## Controle de acesso por sessão
+
+- **Auxiliar de sessão** — `412c359` (`Adicionar auxiliar de controle de acesso baseado em sessão`)
+  - Criou `ControleDeAcesso` para iniciar e encerrar sessões, exigir uma sessão autenticada e redirecionar visitantes não autenticados para o login.
+- **Proteção da área administrativa** — `932659f` (`Protege o cabeçalho administrativo`)
+  - Aplicou a verificação de login ao cabeçalho compartilhado da administração.
+- **Operações de login e logout** — `89adc26` (`Adiciona login e logout à autenticação`)
+  - Acrescentou ao auxiliar os métodos para armazenar os dados de usuário na sessão e encerrar a sessão durante o logout.
+
+## Validação e feedback no login
+
+- **Campos e mensagens** — `1477a8a` (`Validar campos de login e exibir feedback`)
+  - Normalizou o e-mail enviado e interrompeu o envio quando e-mail ou senha estão vazios.
+  - Acrescentou mensagens para campos obrigatórios, credenciais incorretas, logout, acesso não autorizado e falha no login.
 
 ## Resultado
 
-A área administrativa passou a oferecer o fluxo de gerenciamento de categorias com listagem dinâmica, criação, edição e exclusão, incluindo validações e tratamento de falhas. Este resumo não inclui mudanças posteriores de exclusão de usuários ou autenticação.
+Esta branch acrescenta ao projeto a exclusão de usuários e as bases de controle de acesso por sessão, além da validação dos campos e do feedback exibido pela página de login. As funcionalidades de categorias descritas no resumo da branch 4 não fazem parte das mudanças exclusivas desta branch.
