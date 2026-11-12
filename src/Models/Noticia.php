@@ -1,9 +1,6 @@
 <?php
-
 namespace Microblog\Models;
-
 use Microblog\Enums\Destaque;
-
 final class Noticia
 {
     private int $id;

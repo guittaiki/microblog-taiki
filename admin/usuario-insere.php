@@ -6,72 +6,79 @@ use Microblog\Helpers\Validacoes;
 use Microblog\Models\Usuario;
 use Microblog\Services\UsuarioServico;
 
-require_once __DIR__ . "../../vendor/autoload.php";
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Inicializa variáveis para armazenar mensagens de erro e valores do formulário
 $mensagemErro = "";
 $nome = "";
 $email = "";
-$tipo = "editor"; // valor padrão conforme formulário
+$tipo = "editor"; // Valor padrão conforme formulário
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    /* Normaliza as entradas de dados do formulário para minimizar
-    problemas de segurança e inconsciências. */
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     try {
-        $nome = Utils::normalizarEntrada($_POST['nome'] ?? "");
-        $email = Utils::normalizarEntrada($_POST['email'] ?? "", "email");
+        /* Normaliza as entradas de dados do formulário para minimizar
+        problemas de segurança e inconsistências. */
+        $nome =  Utils::normalizarEntrada($_POST["nome"] ?? "");
+        $email = Utils::normalizarEntrada($_POST['email'] ?? "", 'email');
         $senhaBruta = $_POST['senha'];
         $tipo = Utils::normalizarEntrada($_POST['tipo'] ?? "");
-
-        // Aplica validações aos valores dos campos do formulário
+        /* Aplica validações aos valores dos campos do formulário */
         Validacoes::validarNome($nome);
         Validacoes::validarEmail($email);
         Validacoes::validarSenha($senhaBruta);
         Validacoes::validarTipo($tipo);
 
-        // Se todas as validações passaram:
+        /* Se todas as validações passarem: */
 
         // Codificar a senha
         $senha = Utils::codificarSenha($senhaBruta);
 
-        // Converter a string do tipo de usuário (vindo do formulário) para o ENUM
+        // Converter a string do tipo usuário (vindo do formulário) para ENUM
         $tipoEnum = TipoUsuario::from($tipo);
 
-        // Criar um objeto Usuário com os dados normalizados e validados
+        // Criar um objeto Usuario com os dados normalizados e validados
         $usuario = new Usuario($nome, $email, $senha, $tipoEnum);
 
-        // Criar um serviço para usuário
+        // Criar um serviço para usuario
         $usuarioServico = new UsuarioServico();
 
-        // Inserir o usuário atraves do serviço;
+        // Inserir o usuário através do serviço
         $usuarioServico->inserir($usuario);
 
-        // Redirecionar para a página usuário.php
+        // Redirecionar para a página usuarios.php
         header("location:usuarios.php");
         exit;
-    } catch (InvalidArgumentException $erro) {
-        // Primeiro cacth: para erros de validação.
+    } catch (InvalidArgumentException $e) {
+        // Primeiro catch: para erros de validação
         // Exemplos: nome inválido, e-mail incorreto, senha inadequada etc.
-        $mensagemErro = $erro->getMessage();
-    } catch (Throwable $erro) {
-        Utils::registrarLog($erro);
-        $mensagemErro = "Não foi possível cadastrar o usuário. Tente novamente.";
+        $mensagemErro = $e->getMessage();
+    } catch(Throwable $e){
+        // Segundo catch: para exceções e erros inesperados
+
+        // Registramos no log
+        Utils::registrarLog($e);
+
+        // Definimos uma mensagem genérica ao usuário
+        $mensagemErro = "Não foi possivel cadastrar o usuário. Tente novamente.";
     }
 }
 
-require_once __DIR__ . '/../includes/cabecalho-admin.php'; 
+
+require_once __DIR__ . '/../includes/cabecalho-admin.php';
+
 ?>
 
 <div class="row">
     <article class="col-12 bg-white rounded shadow my-1 py-4">
         <h2 class="text-center">Inserir novo usuário</h2>
-
-        <?php if($mensagemErro !== ""): ?>
+         <?php if ($mensagemErro !== ""): ?>
             <div class="alert alert-danger text-center">
-                <?= Utils::escaparHtml($mensagemErro); ?>
-            </div>    
+                <?= Utils::escaparHtml($mensagemErro) ?>
+            </div>
         <?php endif; ?>
-
+        <!-- Aplicamos o value com valores dinâmicos para garantir
+             que os dados já digitados previamente, não sejam removidos dos
+             campos no caso de uma falha na validação. -->
         <form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
             <div class="mb-3">
                 <label class="form-label" for="nome">Nome:</label>

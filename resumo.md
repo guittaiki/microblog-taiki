@@ -1,24 +1,26 @@
-# Resumo dos commits
+# Resumo da branch `04_exercicio-categorias`
 
-Histórico de commits do repositório, do mais recente ao mais antigo (19 commits).
+Este resumo registra somente o trabalho acrescentado nesta branch, em continuidade à edição de usuários feita na branch anterior.
 
-| Commit | Data | Resumo |
-|---|---|---|
-| `6bf14bb` | 2026-11-04 | Registra um checkpoint do projeto com a aplicação, os materiais, imagens, documentação e arquivos administrativos e de domínio. |
-| `50c9f04` | 2026-11-04 | Ajusta a tela de atualização para exibir os dados do usuário antes da edição. |
-| `f595197` | 2026-11-04 | Implementa a busca do usuário pelo ID na tela de atualização. |
-| `7c324ba` | 2026-11-04 | Atualiza a implementação do serviço de usuários. |
-| `981a9e1` | 2026-11-04 | Ajusta o `.gitignore` e a tela de cadastro de usuários. |
-| `993a544` | 2026-11-04 | Continua a implementação da tela de cadastro de usuários. |
-| `d836745` | 2026-11-04 | Desenvolve o processamento da requisição POST no cadastro de usuários. |
-| `969a3f0` | 2026-11-04 | Altera uma propriedade do modelo `Usuario`. |
-| `24d88af` | 2026-11-04 | Atualiza o cadastro de usuários e o modelo `Usuario`. |
-| `2a0ebc3` | 2026-11-04 | Desenvolve a função de inserção no serviço de usuários. |
-| `1e006d6` | 2026-11-04 | Ajusta o `.gitignore`. |
-| `8b9852b` | 2026-11-04 | Altera o tratamento de erros na listagem de usuários para usar `Throwable`. |
-| `28520d8` | 2026-11-03 | Implementa a funcionalidade de visualização/listagem de usuários e atualiza o serviço correspondente. |
-| `be48c90` | 2026-11-03 | Cria o módulo e a classe do serviço de usuários. |
-| `fc9960a` | 2026-11-03 | Adiciona um diretório ao projeto e atualiza o `.gitignore`. |
-| `88e2160` | 2026-11-03 | Adiciona os arquivos de configuração do Composer. |
-| `d20e40f` | 2026-11-03 | Corrige e organiza classes de domínio, enums e helpers de validação/utilidades. |
-| `49ba308` | 2026-11-03 | Registra a estrutura inicial do microblog, incluindo aplicação, materiais, imagens, documentação e scripts SQL. |
+## Gerenciamento de categorias
+
+- **Serviço e modelo de categorias** — `7974641` (`Adicione a categoria de serviço e um ID opcional`)
+  - Criou `CategoriaServico` com operações para listar e inserir categorias.
+  - Permitiu criar categorias sem informar o ID, deixando a geração do identificador a cargo do banco.
+- **Listagem administrativa** — `7901a69` (`Listar categorias dinamicamente na área administrativa`)
+  - Substituiu os dados estáticos da página administrativa por categorias carregadas do banco.
+  - Incluiu a contagem de registros, escape da saída HTML e registro/exibição de falhas de carregamento.
+- **Criação e validação** — `a5da636` (`Validar nomes de categorias no momento da criação`) e `19bb369` (`Update categoria-insere.php`)
+  - Validou o nome informado e conectou o formulário à inserção, apresentando erros de forma apropriada.
+- **Consulta e atualização** — `5688e04` (`Adicionar métodos de busca e atualização de categorias`) e `b212383` (`Valida e trata erros ao atualizar categoria`)
+  - Implementou busca por ID e atualização no serviço.
+  - Carregou a categoria para edição, validou os dados recebidos e tratou erros sem deixar de escapar o conteúdo exibido.
+- **Geração de ID e tratamento de erros** — `c274833` (`Gera automaticamente o ID da categoria`) e `f548030` (`Exibe erros ao atualizar usuário`)
+  - Ajustou a criação para gerar o ID automaticamente e melhorou o retorno de erro no fluxo de atualização de usuário.
+- **Exclusão de categorias** — `64a5b2e` (`Adicionar método de exclusão de categoria`) e `9e2be49` (`Implementar a exclusão de categorias a partir da página administrativa...`)
+  - Adicionou a exclusão ao serviço e à área administrativa.
+  - Corrigiu a cláusula SQL `WHERE` usada pelo serviço, além de tratar erros na operação.
+
+## Resultado
+
+A área administrativa passou a oferecer o fluxo de gerenciamento de categorias com listagem dinâmica, criação, edição e exclusão, incluindo validações e tratamento de falhas. Este resumo não inclui mudanças posteriores de exclusão de usuários ou autenticação.

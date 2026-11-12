@@ -1,10 +1,10 @@
 <?php
 
 namespace Microblog\Helpers;
-use Microblog\Enums\TipoUsuario;
-use Microblog\Enums\Destaque;
 
 use InvalidArgumentException;
+use Microblog\Enums\Destaque;
+use Microblog\Enums\TipoUsuario;
 
 class Validacoes
 {
