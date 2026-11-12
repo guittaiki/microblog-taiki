@@ -1,5 +1,6 @@
 <?php
 
+use Microblog\Auth\ControleDeAcesso;
 use Microblog\Enums\TipoUsuario;
 use Microblog\Helpers\Utils;
 use Microblog\Helpers\Validacoes;
@@ -7,6 +8,9 @@ use Microblog\Models\Usuario;
 use Microblog\Services\UsuarioServico;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+ControleDeAcesso::exigirAdmin();
+
 // Inicializar variáveis para mensagem de erro e dados do usuário
 $mensagemErro = "";
 $dadosUsuario = null;
@@ -22,12 +26,12 @@ try {
     $dadosUsuario = $usuarioServico->buscarPorId($id);
 } catch (Throwable $e) {
     Utils::registrarLog($e);
-    $mensagemErro = "Nao foi possivel carregar os dados do usuario";
+    $mensagemErro = "Nao foi possivel carregar os dados do usuário";
 }
 // Se a consulta retornar null e não tiver, apresentamos uma mensagem avisando que nada foi
 // encontrado
 if ($dadosUsuario === null && $mensagemErro === "") {
-    Utils::alertaErro("Usuario nao encontrado!");
+    Utils::alertaErro("Usuário nao encontrado!");
 }
 
 /* Inicializa variáveis para armazenar os valores do formulário,

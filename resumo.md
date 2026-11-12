@@ -1,30 +1,30 @@
-# Resumo da branch `05_alua-1011`
+# Resumo da branch `06_aula-1211`
 
-Este resumo registra somente as mudanças acrescentadas nesta branch, após a branch `04_exercicio-categorias`.
+Este resumo registra o trabalho de código feito em 12/11/2026 nesta branch. As alterações locais ainda não commitadas estão identificadas separadamente.
 
-## Exclusão de usuários
+## Alterações commitadas
 
-- **Exclusão no serviço e na área administrativa** — `64ef435` (`Implementa exclusão de usuários`)
-  - Adicionou a exclusão de usuários ao serviço e conectou a ação administrativa ao banco.
-  - Normalizou e verificou o ID recebido, registrando falhas e apresentando uma mensagem de erro quando necessário.
-- **Correção de acentuação** — `4b857f9` (`Corrige acentuação na mensagem de exclusão`)
-  - Corrigiu a mensagem de retorno relacionada à exclusão.
+### Login e busca de usuários
 
-## Controle de acesso por sessão
+- Adicionou `UsuarioServico::buscarPorEmail()`, com consulta preparada ao banco.
+- Conectou o formulário de login à busca do usuário e à verificação da senha com `password_verify()`.
+- Incluiu validação dos campos obrigatórios, feedback para credenciais incorretas e tratamento de falhas, com registro de erros no log.
 
-- **Auxiliar de sessão** — `412c359` (`Adicionar auxiliar de controle de acesso baseado em sessão`)
-  - Criou `ControleDeAcesso` para iniciar e encerrar sessões, exigir uma sessão autenticada e redirecionar visitantes não autenticados para o login.
-- **Proteção da área administrativa** — `932659f` (`Protege o cabeçalho administrativo`)
-  - Aplicou a verificação de login ao cabeçalho compartilhado da administração.
-- **Operações de login e logout** — `89adc26` (`Adiciona login e logout à autenticação`)
-  - Acrescentou ao auxiliar os métodos para armazenar os dados de usuário na sessão e encerrar a sessão durante o logout.
+### Sessão e autorização administrativa
 
-## Validação e feedback no login
+- Integraram-se o login e o logout ao controle de sessão.
+- Foram adicionadas verificações para identificar administradores e proteger páginas e operações de gerenciamento de usuários e categorias.
+- O menu administrativo passou a exibir as opções de usuários e categorias somente para administradores.
+- Corrigiu-se o uso da chave `tipo` da sessão, usada para identificar o nível de acesso.
+- A página de acesso não autorizado passou a informar quem está logado e que não tem permissão para o recurso.
 
-- **Campos e mensagens** — `1477a8a` (`Validar campos de login e exibir feedback`)
-  - Normalizou o e-mail enviado e interrompeu o envio quando e-mail ou senha estão vazios.
-  - Acrescentou mensagens para campos obrigatórios, credenciais incorretas, logout, acesso não autorizado e falha no login.
+### Painel, perfil e proteção de conta
 
-## Resultado
+- O painel passou a exibir o nome e o nível de acesso do usuário.
+- A exclusão da própria conta foi bloqueada.
+- O formulário de perfil passou a carregar os dados do usuário atual a partir do ID armazenado na sessão.
 
-Esta branch acrescenta ao projeto a exclusão de usuários e as bases de controle de acesso por sessão, além da validação dos campos e do feedback exibido pela página de login. As funcionalidades de categorias descritas no resumo da branch 4 não fazem parte das mudanças exclusivas desta branch.
+## Alterações locais ainda não commitadas
+
+- `admin/meu-perfil.php`: foi iniciado o processamento do formulário enviado para atualizar os dados do próprio perfil, com validação e chamada ao serviço de usuários.
+- `admin/index.php`: foi acrescentada uma saudação e uma mensagem de confirmação após a atualização do perfil.
