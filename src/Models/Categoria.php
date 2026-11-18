@@ -1,17 +1,15 @@
 <?php
-namespace Microblog\Models;
-final class Categoria
-{
 
+class Categoria
+{
     private ?int $id;
     private string $nome;
 
     public function __construct(string $nome, ?int $id = null)
     {
         $this->nome = $nome;
-        $this->id = $id;    
+        $this->id = $id;
     }
-
 
     public function getId(): ?int
     {
@@ -22,5 +20,7 @@ final class Categoria
     {
         return $this->nome;
     }
-
 }
+
+$categoria = new Categoria("Tecnologia");
+$categoria = new Categoria("Tecnologia", 1);

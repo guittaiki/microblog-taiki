@@ -1,52 +1,70 @@
-<?php 
-
-use Microblog\Helpers\Utils;
-use Microblog\Helpers\Validacoes;
-use Microblog\Models\Categoria;
-use Microblog\Services\CategoriaServico;
+<?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$mensagemErro = "";
-$nome = "";
 
-if ($_SERVER['REQUEST_METHOD'] === "POST"){
-    try{
-        $nome =  Utils::normalizarEntrada($_POST["nome"] ?? "");
+use Microblog\Services\CategoriaServico;
 
-        Validacoes::validarNome($nome);
+$servico = new CategoriaServico();
 
-        $categoria = new Categoria($nome);
-        $categoriaServico = new CategoriaServico();
-        $categoriaServico->inserir($categoria);
+$erro = '';
 
-        header("location:categorias.php");
-        exit;
-        
-    }catch (InvalidArgumentException $e){
-        $mensagemErro = $e->getMessage();
-    }catch(Throwable $e){
-        Utils::registrarLog($e);
-        $mensagemErro = "Não foi possivel cadastrar a categoria. Tente novamente.";
+if (isset($_POST['inserir'])) {
+    $nome = trim($_POST['nome'] ?? '');
+
+    if ($nome === '') {
+        $erro = 'Informe o nome da categoria.';
+    } else {
+        $categoria = new \Categoria($nome);
+
+        if ($servico->inserir($categoria)) {
+            header('Location: categorias.php');
+            exit;
+        } else {
+            $erro = 'Não foi possível cadastrar a categoria.';
+        }
     }
 }
-require_once __DIR__ . '/../includes/cabecalho-admin.php'; 
+
+require_once __DIR__ . '/../includes/cabecalho-admin.php';
+
 ?>
 
 <div class="row">
     <article class="col-12 bg-white rounded shadow my-1 py-4">
+
         <h2 class="text-center">Inserir nova categoria</h2>
-        <?php if ($mensagemErro !== ""): ?>
-            <div class="alert alert-danger text-center">
-                <?= Utils::escaparHtml($mensagemErro) ?>
+
+        <?php if ($erro !== ''): ?>
+            <div class="alert alert-danger mx-auto w-75">
+                <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
             </div>
         <?php endif; ?>
-        <form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+
+        <form class="mx-auto w-75"
+              action=""
+              method="post"
+              id="form-inserir"
+              name="form-inserir">
+
             <div class="mb-3">
                 <label class="form-label" for="nome">Nome:</label>
-                <input class="form-control" type="text" id="nome" name="nome" value="<?= Utils::escaparHtml($nome) ?>">
+
+                <input
+                    class="form-control"
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    value="<?= htmlspecialchars($_POST['nome'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                    required
+                >
             </div>
-            <button class="btn btn-primary" id="inserir" name="inserir"><i class="bi bi-save"></i> Inserir</button>
+
+            <button class="btn btn-primary" id="inserir" name="inserir">
+                <i class="bi bi-save"></i>
+                Inserir
+            </button>
         </form>
+
     </article>
 </div>
 
